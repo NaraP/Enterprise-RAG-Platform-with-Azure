@@ -1,0 +1,27 @@
+@model SearchViewModel
+@{ ViewData["Title"] = "Search"; }
+
+<h1>Search your documents</h1>
+
+<form asp-action="Index" method="get" class="search-form">
+    <input type="text" name="q" value="@Model.Query" placeholder="Ask a question or search for keywords…" class="text-input search-input" />
+    <button type="submit" class="btn-primary">Search</button>
+</form>
+
+@if (Model.Query is not null && !Model.Results.Any())
+{
+    <p>No results found for "@Model.Query".</p>
+}
+
+<ul class="results">
+@foreach (var result in Model.Results)
+{
+    <li class="result-card">
+        <div class="result-title">
+            <a asp-controller="Documents" asp-action="Status" asp-route-id="@result.DocumentId">@result.FileName</a>
+            <span class="score">score: @result.Score.ToString("F2")</span>
+        </div>
+        <p class="snippet">@result.ContentSnippet</p>
+    </li>
+}
+</ul>

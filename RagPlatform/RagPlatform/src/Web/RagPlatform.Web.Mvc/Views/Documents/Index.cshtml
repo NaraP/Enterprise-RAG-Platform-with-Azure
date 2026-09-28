@@ -1,0 +1,49 @@
+@model DocumentListViewModel
+@{ ViewData["Title"] = "Documents"; }
+
+<h1>Your Documents</h1>
+
+<table class="grid">
+    <thead>
+        <tr>
+            <th>File name</th>
+            <th>Type</th>
+            <th>Size</th>
+            <th>Status</th>
+            <th>Chunks</th>
+            <th>Uploaded</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var doc in Model.Documents)
+    {
+        <tr>
+            <td>@doc.FileName</td>
+            <td>@doc.DocumentType</td>
+            <td>@((doc.SizeInBytes / 1024.0).ToString("N0")) KB</td>
+            <td><span class="badge status-@doc.Status.ToString().ToLower()">@doc.Status</span></td>
+            <td>@doc.ChunkCount</td>
+            <td>@doc.CreatedAtUtc.ToLocalTime().ToString("g")</td>
+            <td><a asp-action="Status" asp-route-id="@doc.Id">Details</a></td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+@if (!Model.Documents.Any())
+{
+    <p>No documents yet. <a asp-action="Upload">Upload your first document</a>.</p>
+}
+
+<div class="pager">
+    @if (Model.Page > 1)
+    {
+        <a asp-action="Index" asp-route-page="@(Model.Page - 1)">&laquo; Previous</a>
+    }
+    <span>Page @Model.Page of @Math.Max(Model.TotalPages, 1)</span>
+    @if (Model.Page < Model.TotalPages)
+    {
+        <a asp-action="Index" asp-route-page="@(Model.Page + 1)">Next &raquo;</a>
+    }
+</div>

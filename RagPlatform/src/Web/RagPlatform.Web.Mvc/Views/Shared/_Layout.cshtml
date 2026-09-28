@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - RAG Platform</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <header class="topbar">
+        <div class="brand">RAG Platform</div>
+        <nav>
+            <a asp-controller="Documents" asp-action="Index">Dashboard</a>
+            <a asp-controller="Documents" asp-action="Upload">Upload</a>
+            <a asp-controller="Search" asp-action="Index">Search</a>
+        </nav>
+        <partial name="_LoginPartial" />
+    </header>
+
+    <main class="container">
+        @if (TempData["Message"] is string message)
+        {
+            <div class="alert alert-success">@message</div>
+        }
+        @RenderBody()
+    </main>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

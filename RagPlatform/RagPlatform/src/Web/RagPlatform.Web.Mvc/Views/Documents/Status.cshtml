@@ -1,0 +1,26 @@
+@model DocumentStatusViewModel
+@{ ViewData["Title"] = "Document Status"; }
+
+<h1>@Model.Status.FileName</h1>
+<p>Current status: <span class="badge status-@Model.Status.Status.ToString().ToLower()">@Model.Status.Status</span></p>
+
+@if (Model.Status.LastError is not null)
+{
+    <div class="alert alert-error">@Model.Status.LastError</div>
+}
+
+<h2>Processing history</h2>
+<ul class="timeline">
+@foreach (var entry in Model.Status.History)
+{
+    <li>
+        <strong>@entry.Status</strong> &mdash; @entry.TimestampUtc.ToLocalTime().ToString("g")
+        @if (!string.IsNullOrWhiteSpace(entry.Message))
+        {
+            <div class="muted">@entry.Message</div>
+        }
+    </li>
+}
+</ul>
+
+<a asp-action="Index">&laquo; Back to documents</a>

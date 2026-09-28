@@ -1,0 +1,29 @@
+@model UploadDocumentViewModel
+@{ ViewData["Title"] = "Upload Document"; }
+
+<h1>Upload a Document</h1>
+
+<form asp-action="Upload" enctype="multipart/form-data" method="post" class="form">
+    <div class="form-group">
+        <label asp-for="File"></label>
+        <input asp-for="File" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.md" />
+        <span asp-validation-for="File" class="field-error"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Tags"></label>
+        <input asp-for="Tags" class="text-input" placeholder="e.g. contracts, 2026, finance" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Description"></label>
+        <textarea asp-for="Description" class="text-input" rows="3"></textarea>
+        <span asp-validation-for="Description" class="field-error"></span>
+    </div>
+
+    <button type="submit" class="btn-primary">Upload</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

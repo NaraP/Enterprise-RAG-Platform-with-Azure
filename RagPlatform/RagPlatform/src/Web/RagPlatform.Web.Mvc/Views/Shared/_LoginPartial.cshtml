@@ -1,0 +1,20 @@
+@using Microsoft.Identity.Web
+@inject IConfiguration Configuration
+@{
+    var useLocalDevAuth = Configuration.GetValue<bool>("Authentication:UseLocalDevAuth");
+}
+<div class="account">
+    @if (useLocalDevAuth)
+    {
+        <span>@User.Identity?.Name (local dev auth)</span>
+    }
+    else if (User.Identity?.IsAuthenticated == true)
+    {
+        <span>@User.GetDisplayName()</span>
+        <a asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignOut">Sign out</a>
+    }
+    else
+    {
+        <a asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignIn">Sign in</a>
+    }
+</div>
